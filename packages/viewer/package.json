@@ -1,0 +1,38 @@
+{
+  "name": "@opencode-trace/viewer",
+  "version": "0.1.0",
+  "description": "Beautiful HTML viewer for opencode traces",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts && npm run build:css",
+    "build:css": "tailwindcss -i src/styles/input.css -o dist/viewer.css --minify",
+    "dev": "concurrently \"tsup src/index.ts --format esm --dts --watch\" \"tailwindcss -i src/styles/input.css -o dist/viewer.css --watch\"",
+    "test": "vitest",
+    "lint": "eslint src/**/*.ts"
+  },
+  "dependencies": {
+    "lit": "^3.0.0",
+    "marked": "^11.0.0",
+    "diff": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/diff": "^5.0.0",
+    "autoprefixer": "^10.0.0",
+    "concurrently": "^8.0.0",
+    "postcss": "^8.0.0",
+    "tailwindcss": "^3.0.0",
+    "tsup": "^8.0.0",
+    "vitest": "^1.0.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles": "./dist/viewer.css"
+  },
+  "files": [
+    "dist"
+  ]
+}

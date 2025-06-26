@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    @apply bg-vs-bg text-vs-text font-mono;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+  }
+  
+  code {
+    @apply bg-vs-bg-secondary px-1 py-0.5 rounded text-sm;
+  }
+  
+  pre {
+    @apply bg-vs-bg-secondary p-4 rounded overflow-x-auto;
+  }
+  
+  pre code {
+    @apply bg-transparent p-0;
+  }
+}
+
+@layer components {
+  .trace-card {
+    @apply bg-vs-bg-secondary border border-vs-border rounded-lg p-4 mb-4;
+  }
+  
+  .trace-header {
+    @apply flex items-center justify-between mb-2 pb-2 border-b border-vs-border;
+  }
+  
+  .trace-timestamp {
+    @apply text-vs-muted text-sm;
+  }
+  
+  .trace-status {
+    @apply px-2 py-1 rounded text-xs font-medium;
+  }
+  
+  .trace-status-success {
+    @apply bg-vs-success/20 text-vs-success;
+  }
+  
+  .trace-status-error {
+    @apply bg-vs-error/20 text-vs-error;
+  }
+  
+  .trace-status-warning {
+    @apply bg-vs-warning/20 text-vs-warning;
+  }
+  
+  .collapsible-toggle {
+    @apply cursor-pointer select-none hover:bg-vs-hover px-2 py-1 rounded;
+  }
+  
+  .collapsible-content {
+    @apply overflow-hidden transition-all duration-200;
+  }
+  
+  .tool-call {
+    @apply bg-vs-bg border border-vs-border rounded p-3 mb-2;
+  }
+  
+  .tool-name {
+    @apply text-vs-function font-medium;
+  }
+  
+  .tool-params {
+    @apply text-vs-muted text-sm mt-1;
+  }
+  
+  .diff-added {
+    @apply bg-green-900/30 text-green-300;
+  }
+  
+  .diff-removed {
+    @apply bg-red-900/30 text-red-300;
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "name": "opencode-trace",
+  "version": "0.1.0",
+  "description": "Network request tracing for opencode - beautiful HTML viewer for debugging AI coding sessions",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "npm run build:tracer && npm run build:viewer && npm run build:go",
+    "build:tracer": "cd packages/tracer && npm run build",
+    "build:viewer": "cd packages/viewer && npm run build",
+    "build:go": "cd go-client && go build -o ../dist/opencode-trace-client .",
+    "dev": "npm run dev:tracer",
+    "dev:tracer": "cd packages/tracer && npm run dev",
+    "test": "npm run test:tracer && npm run test:viewer && npm run test:go",
+    "test:tracer": "cd packages/tracer && npm test",
+    "test:viewer": "cd packages/viewer && npm test",
+    "test:go": "cd go-client && go test ./...",
+    "test:integration": "node tests/integration/run-tests.js",
+    "lint": "npm run lint:ts && npm run lint:go",
+    "lint:ts": "eslint packages/*/src/**/*.ts",
+    "lint:go": "cd go-client && golangci-lint run",
+    "clean": "rm -rf dist && rm -rf packages/*/dist"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "keywords": [
+    "opencode",
+    "tracing",
+    "network",
+    "debugging",
+    "ai",
+    "claude",
+    "anthropic"
+  ],
+  "author": "opencode-trace contributors",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

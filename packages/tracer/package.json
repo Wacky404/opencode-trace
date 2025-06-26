@@ -1,0 +1,43 @@
+{
+  "name": "@opencode-trace/tracer",
+  "version": "0.1.0",
+  "description": "Core tracing library for opencode network requests",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "lint": "eslint src/**/*.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/tokenizer": "^0.0.4",
+    "@types/ws": "^8.18.1",
+    "fast-json-stable-stringify": "^2.1.0",
+    "gpt-tokenizer": "^3.0.1",
+    "graceful-fs": "^4.2.11",
+    "tiktoken": "^1.0.21",
+    "uuid": "^9.0.0",
+    "ws": "^8.18.2"
+  },
+  "devDependencies": {
+    "@types/graceful-fs": "^4.1.6",
+    "@types/node": "^20.19.1",
+    "@types/tmp": "^0.2.0",
+    "@types/uuid": "^9.0.0",
+    "tmp": "^0.2.1",
+    "tsup": "^8.0.0",
+    "vitest": "^1.0.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ]
+}

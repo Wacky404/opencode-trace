@@ -1,0 +1,2 @@
+{"type":"http_request","timestamp":1750910026430,"session_id":"retry-example","method":"GET","url":"http://127.0.0.1:52023/api/unreliable","headers":{"User-Agent":"opencode-trace-go-client/1.0"},"user_agent":"opencode-trace-go-client/1.0"}
+{"type":"http_response","timestamp":1750910026431,"session_id":"retry-example","status_code":500,"status":"500 Internal Server Error","headers":{"Content-Length":"0","Date":"Thu, 26 Jun 2025 03:53:46 GMT"},"response_size":0,"duration_ms":0,"success":false}
