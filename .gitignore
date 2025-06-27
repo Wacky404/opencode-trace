@@ -59,6 +59,7 @@ tmp/
 temp/
 
 # Example trace files (keep structure, ignore content)
+.opencode-trace/
 .opencode-trace/sessions/*.jsonl
 .opencode-trace/sessions/*.html
 !.opencode-trace/sessions/.gitkeep

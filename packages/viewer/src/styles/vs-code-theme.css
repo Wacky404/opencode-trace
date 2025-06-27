@@ -1,0 +1,326 @@
+/**
+ * VS Code Dark Theme for opencode-trace
+ * Complete color system based on VS Code's dark theme
+ */
+
+:root {
+  /* ================================================
+   * VS Code Core Colors
+   * ================================================ */
+  
+  /* Background Colors */
+  --vs-bg: #1e1e1e;                    /* Main editor background */
+  --vs-bg-secondary: #2d2d30;          /* Secondary panels */
+  --vs-bg-tertiary: #252526;           /* Tertiary backgrounds */
+  --vs-bg-elevated: #3c3c3c;           /* Elevated surfaces */
+  --vs-bg-input: #3c3c3c;              /* Input backgrounds */
+  --vs-bg-button: #0e639c;             /* Button backgrounds */
+  --vs-bg-button-hover: #1177bb;       /* Button hover */
+  
+  /* Text Colors */
+  --vs-text: #d4d4d4;                  /* Primary text */
+  --vs-text-muted: #8c8c8c;            /* Secondary text */
+  --vs-text-subtle: #6a6a6a;           /* Subtle text */
+  --vs-text-disabled: #5a5a5a;         /* Disabled text */
+  --vs-text-inverse: #ffffff;          /* Text on dark backgrounds */
+  
+  /* Accent and Brand Colors */
+  --vs-accent: #569cd6;                /* Primary accent (blue) */
+  --vs-accent-hover: #4a8bc2;          /* Accent hover state */
+  --vs-accent-active: #3d79a8;         /* Accent active state */
+  --vs-accent-muted: #4d7da8;          /* Muted accent */
+  
+  /* Semantic Colors */
+  --vs-user: #6a9955;                  /* User messages (green) */
+  --vs-assistant: #ce9178;             /* Assistant messages (orange) */
+  --vs-function: #dcdcaa;              /* Function names (yellow) */
+  --vs-type: #4ec9b0;                  /* Types and classes (teal) */
+  --vs-keyword: #569cd6;               /* Keywords (blue) */
+  --vs-string: #ce9178;                /* Strings (orange) */
+  --vs-comment: #6a9955;               /* Comments (green) */
+  --vs-number: #b5cea8;                /* Numbers (light green) */
+  --vs-operator: #d4d4d4;              /* Operators (white) */
+  
+  /* Status Colors */
+  --vs-error: #f44747;                 /* Error states */
+  --vs-error-bg: rgba(244, 71, 71, 0.1); /* Error background */
+  --vs-warning: #ffcc02;               /* Warning states */
+  --vs-warning-bg: rgba(255, 204, 2, 0.1); /* Warning background */
+  --vs-success: #4ec9b0;               /* Success states */
+  --vs-success-bg: rgba(78, 201, 176, 0.1); /* Success background */
+  --vs-info: #569cd6;                  /* Info states */
+  --vs-info-bg: rgba(86, 156, 214, 0.1); /* Info background */
+  
+  /* Border Colors */
+  --vs-border: #3e3e42;                /* Default borders */
+  --vs-border-light: #464647;          /* Light borders */
+  --vs-border-focus: #569cd6;          /* Focus borders */
+  --vs-border-error: #f44747;          /* Error borders */
+  --vs-border-warning: #ffcc02;        /* Warning borders */
+  --vs-border-success: #4ec9b0;        /* Success borders */
+  
+  /* Interactive States */
+  --vs-hover: #2a2d2e;                 /* Hover backgrounds */
+  --vs-active: #37373d;                /* Active backgrounds */
+  --vs-selection: #264f78;             /* Text selection */
+  --vs-selection-inactive: #3a3d41;    /* Inactive selection */
+  
+  /* Shadows and Overlays */
+  --vs-shadow: rgba(0, 0, 0, 0.3);     /* Drop shadows */
+  --vs-shadow-strong: rgba(0, 0, 0, 0.5); /* Strong shadows */
+  --vs-overlay: rgba(30, 30, 30, 0.8); /* Modal overlays */
+  
+  /* ================================================
+   * Component-Specific Colors
+   * ================================================ */
+  
+  /* Scrollbars */
+  --vs-scrollbar-bg: transparent;
+  --vs-scrollbar-thumb: #424242;
+  --vs-scrollbar-thumb-hover: #4f4f4f;
+  --vs-scrollbar-thumb-active: #5a5a5a;
+  
+  /* Code Highlighting */
+  --vs-code-bg: #1e1e1e;
+  --vs-code-selection: #264f78;
+  --vs-code-line-highlight: #2a2d2e;
+  --vs-code-line-number: #858585;
+  --vs-code-cursor: #d4d4d4;
+  
+  /* Diff Colors */
+  --vs-diff-added: rgba(152, 251, 152, 0.15);
+  --vs-diff-added-border: #98fb98;
+  --vs-diff-removed: rgba(255, 99, 99, 0.15);
+  --vs-diff-removed-border: #ff6363;
+  --vs-diff-modified: rgba(255, 215, 0, 0.15);
+  --vs-diff-modified-border: #ffd700;
+  
+  /* Activity Bar */
+  --vs-activity-bar-bg: #333333;
+  --vs-activity-bar-active: #007acc;
+  --vs-activity-bar-inactive: #d4d4d4;
+  --vs-activity-bar-hover: #2a2d2e;
+  
+  /* Side Bar */
+  --vs-sidebar-bg: #252526;
+  --vs-sidebar-hover: #2a2d2e;
+  --vs-sidebar-active: #37373d;
+  
+  /* Editor Groups */
+  --vs-editor-group-border: #444444;
+  --vs-editor-group-header-bg: #2d2d30;
+  --vs-editor-group-header-tabs-bg: #252526;
+  
+  /* Terminal */
+  --vs-terminal-bg: #1e1e1e;
+  --vs-terminal-cursor: #d4d4d4;
+  --vs-terminal-selection: #264f78;
+  
+  /* ================================================
+   * Sizing and Spacing
+   * ================================================ */
+  
+  /* Component Sizes */
+  --size-xs: 0.25rem;    /* 4px */
+  --size-sm: 0.5rem;     /* 8px */
+  --size-md: 1rem;       /* 16px */
+  --size-lg: 1.5rem;     /* 24px */
+  --size-xl: 2rem;       /* 32px */
+  --size-2xl: 3rem;      /* 48px */
+  --size-3xl: 4rem;      /* 64px */
+  
+  /* Border Radius */
+  --radius-sm: 0.125rem;  /* 2px */
+  --radius-md: 0.25rem;   /* 4px */
+  --radius-lg: 0.5rem;    /* 8px */
+  --radius-xl: 1rem;      /* 16px */
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 350ms ease;
+  
+  /* ================================================
+   * Typography
+   * ================================================ */
+  
+  /* Font Families */
+  --font-mono: 'Consolas', 'Monaco', 'Courier New', monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  
+  /* Font Sizes */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.25rem;     /* 20px */
+  --text-2xl: 1.5rem;     /* 24px */
+  --text-3xl: 1.875rem;   /* 30px */
+  
+  /* Line Heights */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+  
+  /* Font Weights */
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* ================================================
+   * Z-Index Scale
+   * ================================================ */
+  
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-toast: 1080;
+}
+
+/* ================================================
+ * Base Element Styles
+ * ================================================ */
+
+html {
+  font-family: var(--font-mono);
+  background-color: var(--vs-bg);
+  color: var(--vs-text);
+  line-height: var(--leading-normal);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--vs-bg);
+  color: var(--vs-text);
+  font-family: var(--font-mono);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ================================================
+ * Scrollbar Styles
+ * ================================================ */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--vs-scrollbar-thumb) var(--vs-scrollbar-bg);
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--vs-scrollbar-bg);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--vs-scrollbar-thumb);
+  border-radius: 6px;
+  border: 2px solid var(--vs-bg);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--vs-scrollbar-thumb-hover);
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: var(--vs-scrollbar-thumb-active);
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--vs-bg);
+}
+
+/* ================================================
+ * Utility Classes
+ * ================================================ */
+
+/* Background Colors */
+.vs-bg { background-color: var(--vs-bg) !important; }
+.vs-bg-secondary { background-color: var(--vs-bg-secondary) !important; }
+.vs-bg-tertiary { background-color: var(--vs-bg-tertiary) !important; }
+.vs-bg-elevated { background-color: var(--vs-bg-elevated) !important; }
+.vs-bg-hover { background-color: var(--vs-hover) !important; }
+.vs-bg-active { background-color: var(--vs-active) !important; }
+
+/* Text Colors */
+.vs-text { color: var(--vs-text) !important; }
+.vs-text-muted { color: var(--vs-text-muted) !important; }
+.vs-text-subtle { color: var(--vs-text-subtle) !important; }
+.vs-text-disabled { color: var(--vs-text-disabled) !important; }
+.vs-text-inverse { color: var(--vs-text-inverse) !important; }
+
+/* Accent Colors */
+.vs-accent { color: var(--vs-accent) !important; }
+.vs-bg-accent { background-color: var(--vs-accent) !important; }
+.vs-border-accent { border-color: var(--vs-accent) !important; }
+
+/* Semantic Colors */
+.vs-user { color: var(--vs-user) !important; }
+.vs-assistant { color: var(--vs-assistant) !important; }
+.vs-function { color: var(--vs-function) !important; }
+.vs-type { color: var(--vs-type) !important; }
+.vs-keyword { color: var(--vs-keyword) !important; }
+.vs-string { color: var(--vs-string) !important; }
+.vs-comment { color: var(--vs-comment) !important; }
+.vs-number { color: var(--vs-number) !important; }
+
+/* Status Colors */
+.vs-error { color: var(--vs-error) !important; }
+.vs-bg-error { background-color: var(--vs-error-bg) !important; }
+.vs-border-error { border-color: var(--vs-error) !important; }
+
+.vs-warning { color: var(--vs-warning) !important; }
+.vs-bg-warning { background-color: var(--vs-warning-bg) !important; }
+.vs-border-warning { border-color: var(--vs-warning) !important; }
+
+.vs-success { color: var(--vs-success) !important; }
+.vs-bg-success { background-color: var(--vs-success-bg) !important; }
+.vs-border-success { border-color: var(--vs-success) !important; }
+
+.vs-info { color: var(--vs-info) !important; }
+.vs-bg-info { background-color: var(--vs-info-bg) !important; }
+.vs-border-info { border-color: var(--vs-info) !important; }
+
+/* Border Utilities */
+.vs-border { border-color: var(--vs-border) !important; }
+.vs-border-light { border-color: var(--vs-border-light) !important; }
+.vs-border-focus { border-color: var(--vs-border-focus) !important; }
+
+/* Interactive States */
+.vs-hover:hover { background-color: var(--vs-hover) !important; }
+.vs-active:active { background-color: var(--vs-active) !important; }
+.vs-selection::selection { background-color: var(--vs-selection) !important; }
+
+/* Typography Utilities */
+.font-mono { font-family: var(--font-mono) !important; }
+.font-sans { font-family: var(--font-sans) !important; }
+
+/* Focus Styles */
+.vs-focus:focus-visible {
+  outline: 2px solid var(--vs-border-focus);
+  outline-offset: 2px;
+}
+
+/* Animation Classes */
+.transition-vs {
+  transition: all var(--transition-normal);
+}
+
+.transition-vs-fast {
+  transition: all var(--transition-fast);
+}
+
+.transition-vs-slow {
+  transition: all var(--transition-slow);
+}

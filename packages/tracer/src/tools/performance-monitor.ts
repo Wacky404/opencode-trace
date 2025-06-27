@@ -148,6 +148,22 @@ export class PerformanceMonitor {
       return this.createEmptyMetrics();
     }
 
+    // Phase 1: Calculate base metrics without circular dependencies
+    const baseMetrics = this.calculateBaseMetrics();
+    
+    // Phase 2: Calculate derived metrics using base metrics
+    const systemImpactPercent = this.calculateSystemImpact(baseMetrics);
+    const degradationPercent = this.calculateDegradation(baseMetrics);
+
+    return {
+      ...baseMetrics,
+      systemImpactPercent,
+      degradationPercent,
+      baselinePerformance: this.baselineMetrics?.operationsPerSecond
+    };
+  }
+
+  private calculateBaseMetrics(): Omit<PerformanceMetrics, 'systemImpactPercent' | 'degradationPercent' | 'baselinePerformance'> {
     const now = Date.now();
     const recentSamples = this.samples.filter(s => now - s.timestamp < 60000); // Last minute
     const executionTimes = recentSamples.map(s => s.executionTime);
@@ -188,10 +204,6 @@ export class PerformanceMonitor {
     const memoryUsageMB = memoryUsages.length > 0 ? memoryUsages[memoryUsages.length - 1] : this.getCurrentMemoryUsage();
     const peakMemoryUsageMB = Math.max(...memoryUsages) || memoryUsageMB;
 
-    // System impact calculation
-    const systemImpactPercent = this.calculateSystemImpact();
-    const degradationPercent = this.calculateDegradation();
-
     return {
       averageExecutionTime,
       minExecutionTime,
@@ -206,10 +218,7 @@ export class PerformanceMonitor {
       timeoutRate,
       fileOperationsPerSecond,
       bashCommandsPerSecond,
-      sanitizationOverheadMs,
-      systemImpactPercent,
-      baselinePerformance: this.baselineMetrics?.operationsPerSecond,
-      degradationPercent
+      sanitizationOverheadMs
     };
   }
 
@@ -218,27 +227,34 @@ export class PerformanceMonitor {
   }
 
   public checkThresholds(): { passed: boolean; violations: string[] } {
-    const metrics = this.getCurrentMetrics();
+    // Use base metrics to avoid circular dependency
+    if (this.samples.length === 0) {
+      return { passed: true, violations: [] };
+    }
+
+    const baseMetrics = this.calculateBaseMetrics();
     const violations: string[] = [];
 
-    if (metrics.averageExecutionTime > this.thresholds.maxExecutionTimeMs) {
-      violations.push(`Average execution time (${metrics.averageExecutionTime.toFixed(2)}ms) exceeds threshold (${this.thresholds.maxExecutionTimeMs}ms)`);
+    if (baseMetrics.averageExecutionTime > this.thresholds.maxExecutionTimeMs) {
+      violations.push(`Average execution time (${baseMetrics.averageExecutionTime.toFixed(2)}ms) exceeds threshold (${this.thresholds.maxExecutionTimeMs}ms)`);
     }
 
-    if (metrics.memoryUsageMB > this.thresholds.maxMemoryUsageMB) {
-      violations.push(`Memory usage (${metrics.memoryUsageMB.toFixed(2)}MB) exceeds threshold (${this.thresholds.maxMemoryUsageMB}MB)`);
+    if (baseMetrics.memoryUsageMB > this.thresholds.maxMemoryUsageMB) {
+      violations.push(`Memory usage (${baseMetrics.memoryUsageMB.toFixed(2)}MB) exceeds threshold (${this.thresholds.maxMemoryUsageMB}MB)`);
     }
 
-    if (metrics.systemImpactPercent > this.thresholds.maxSystemImpactPercent) {
-      violations.push(`System impact (${metrics.systemImpactPercent.toFixed(2)}%) exceeds threshold (${this.thresholds.maxSystemImpactPercent}%)`);
+    // Calculate system impact for threshold check
+    const systemImpactPercent = this.calculateSystemImpact(baseMetrics);
+    if (systemImpactPercent > this.thresholds.maxSystemImpactPercent) {
+      violations.push(`System impact (${systemImpactPercent.toFixed(2)}%) exceeds threshold (${this.thresholds.maxSystemImpactPercent}%)`);
     }
 
-    if (metrics.errorRate > this.thresholds.maxErrorRate) {
-      violations.push(`Error rate (${(metrics.errorRate * 100).toFixed(2)}%) exceeds threshold (${(this.thresholds.maxErrorRate * 100).toFixed(2)}%)`);
+    if (baseMetrics.errorRate > this.thresholds.maxErrorRate) {
+      violations.push(`Error rate (${(baseMetrics.errorRate * 100).toFixed(2)}%) exceeds threshold (${(this.thresholds.maxErrorRate * 100).toFixed(2)}%)`);
     }
 
-    if (metrics.operationsPerSecond < this.thresholds.minOperationsPerSecond) {
-      violations.push(`Operations per second (${metrics.operationsPerSecond.toFixed(2)}) below threshold (${this.thresholds.minOperationsPerSecond})`);
+    if (baseMetrics.operationsPerSecond < this.thresholds.minOperationsPerSecond) {
+      violations.push(`Operations per second (${baseMetrics.operationsPerSecond.toFixed(2)}) below threshold (${this.thresholds.minOperationsPerSecond})`);
     }
 
     return {
@@ -309,32 +325,29 @@ export class PerformanceMonitor {
     return 0;
   }
 
-  private calculateSystemImpact(): number {
+  private calculateSystemImpact(metrics: Partial<PerformanceMetrics>): number {
     // Calculate the performance impact of tracing on the system
     // This is a simplified calculation
-    const currentMetrics = this.getCurrentMetrics();
-    
     if (!this.baselineMetrics) {
       return 0;
     }
 
     const impactFactors = [
-      currentMetrics.memoryUsageMB / 100, // Memory impact
-      currentMetrics.averageExecutionTime / 1000, // Execution time impact
-      currentMetrics.cpuUsagePercent / 100 // CPU impact
+      (metrics.memoryUsageMB || 0) / 100, // Memory impact
+      (metrics.averageExecutionTime || 0) / 1000, // Execution time impact
+      (metrics.cpuUsagePercent || 0) / 100 // CPU impact
     ];
 
     return Math.min(100, impactFactors.reduce((sum, factor) => sum + factor, 0) * 100);
   }
 
-  private calculateDegradation(): number {
+  private calculateDegradation(metrics: Partial<PerformanceMetrics>): number {
     if (!this.baselineMetrics) {
       return 0;
     }
 
-    const currentMetrics = this.getCurrentMetrics();
     const baselineOps = this.baselineMetrics.operationsPerSecond;
-    const currentOps = currentMetrics.operationsPerSecond;
+    const currentOps = metrics.operationsPerSecond || 0;
 
     if (baselineOps === 0) return 0;
 

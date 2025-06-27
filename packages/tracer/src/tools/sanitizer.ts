@@ -249,10 +249,18 @@ export class DataSanitizer {
     if (typeof value === 'object') {
       const sanitizedObject: any = {};
       for (const [key, val] of Object.entries(value)) {
-        const result = this.sanitizeValue(val, [...path, key]);
-        sanitizedFields.push(...result.sanitizedFields);
-        truncated = truncated || result.truncated;
-        sanitizedObject[key] = result.value;
+        // Check if the property name itself is sensitive
+        if (this.config.enableDataSanitization && this.isSensitiveFieldName(key)) {
+          // Sanitize the entire value if the field name is sensitive
+          sanitizedObject[key] = '[REDACTED]';
+          sanitizedFields.push(`${path.concat(key).join('.')} (sensitive field)`);
+        } else {
+          // Otherwise, recursively sanitize the value
+          const result = this.sanitizeValue(val, [...path, key]);
+          sanitizedFields.push(...result.sanitizedFields);
+          truncated = truncated || result.truncated;
+          sanitizedObject[key] = result.value;
+        }
       }
       return { value: sanitizedObject, sanitizedFields, truncated };
     }
@@ -378,6 +386,27 @@ export class DataSanitizer {
     const patternLevelNum = levels[patternLevel];
     
     return patternLevelNum < configLevel;
+  }
+
+  private isSensitiveFieldName(fieldName: string): boolean {
+    // Common sensitive field names to check
+    const sensitiveFieldPatterns = [
+      /^(password|passwd|pwd)$/i,
+      /^(api[_-]?key|apikey|apiKey)$/i,
+      /^(secret|token|auth[_-]?token|authToken)$/i,
+      /^(bearer[_-]?token|bearerToken)$/i,
+      /^(access[_-]?token|accessToken)$/i,
+      /^(refresh[_-]?token|refreshToken)$/i,
+      /^(private[_-]?key|privateKey)$/i,
+      /^(ssh[_-]?key|sshKey)$/i,
+      /^(client[_-]?secret|clientSecret)$/i,
+      /^(session[_-]?id|sessionId)$/i,
+      /^(credit[_-]?card|creditCard)$/i,
+      /^(ssn|social[_-]?security|socialSecurity)$/i
+    ];
+
+    // Check if field name matches any sensitive pattern
+    return sensitiveFieldPatterns.some(pattern => pattern.test(fieldName));
   }
 
   private calculateSize(data: any): number {
